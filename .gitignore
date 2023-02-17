@@ -4,5 +4,6 @@ mex_core
 nmpc
 solver
 slprj
-.slxc
-.pdf
+*.slxc
+*.pdf
+doc
