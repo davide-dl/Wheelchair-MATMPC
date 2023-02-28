@@ -42,18 +42,14 @@ auxN     = SX.sym('auxN',nyN,1);    % auxilary variable
 z = states(1); % z axis = horizontal
 y = states(2); % y axis = vertical
 th = states(3); % anticlockwise angle wrt z axis
-vl = states(4); % left wheel vel
-vr = states(5); % right wheel vel
+v = states(4); % left wheel vel
+w = states(5); % right wheel vel
 
-al = controls(1); % left wheel acc
-ar = controls(2); % right wheel acc
-
-d = 0.6; %approximate distance between wheels
-v = (vr+vl)/2;
-w = (vr-vl)/d;
+vdot = controls(1); % left wheel acc
+wdot = controls(2); % right wheel acc
 
 % explicit ODE RHS
-x_dot=[v*sin(th);v*cos(th);w;al;ar];  
+x_dot=[v*cos(th);v*sin(th);w;vdot;wdot];  
  
 % algebraic function
 z_fun = [];                   
@@ -65,20 +61,20 @@ impl_f = xdot - x_dot;
 %% Objectives and constraints
 
 % inner objectives
-h = [z;y;th;vl;vr;al;ar];
+h = [z;y;th;v;w;vdot;wdot];
 hN = h(1:nyN);
 
 obst_c = [0.6;1.5]; % DAVIDE: change it also in InitData > reference generation
 obst_r = 0.1;
 
 % outer objectives
-obji = 0.5*(h-refs)'*diag(Q)*(h-refs) + APF.circle(h(1:2),obst_c,obst_r);
-objN = 0.5*(hN-refN)'*diag(QN)*(hN-refN) + APF.circle(h(1:2),obst_c,obst_r);
+obji = 0.5*(h-refs)'*diag(Q)*(h-refs) + 0*APF.circle(h(1:2),obst_c,obst_r);
+objN = 0.5*(hN-refN)'*diag(QN)*(hN-refN) + 0*APF.circle(h(1:2),obst_c,obst_r);
 
 obji_GGN = 0.5*(aux-refs)'*(aux-refs);
 objN_GGN = 0.5*(auxN-refN)'*(auxN-refN);
 
-% general inequality constraints
+
 general_con = [];
 general_con_N = [];
 

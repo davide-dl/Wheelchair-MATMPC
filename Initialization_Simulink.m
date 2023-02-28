@@ -3,7 +3,7 @@
 %  ------------------------------------------------------
 
 %%
-clear mex; close all; clear; clc;
+clear mex; close all; clear all; clc;
 
 addpath([pwd,'/nmpc']);
 addpath([pwd,'/model_src']);
@@ -36,7 +36,7 @@ nbx_idx = settings.nbx_idx; % Index of state bounds
 
 %% add more to Settings
 
-N  = 80;
+N  = 2*80;
 N2 = 5;
 r  = 10;
 
@@ -53,7 +53,7 @@ opt.hotstart='no'; %'yes','no' (only for qpoases)
 opt.shifting='no'; % 'yes','no'
 opt.ref_type=0; % 0-time invariant, 1-time varying(no preview), 2-time varying (preview)
 opt.nonuniform_grid=0; % currently not supported
-opt.RTI=['yes'];
+opt.RTI='yes';
 
 %% available qpsolver
 %'qpoases' (for full condensing)
@@ -68,18 +68,21 @@ u0 = zeros(nu,1);
 z0 = zeros(nz,1);
 para0 = zeros(max(1,np),1);  
 
-W=repmat([10 10 0.01 0.01 0.01 1 1]',1,N);
-WN=[50 50 0.01 0.01 0.01]';
+% W=repmat([10 10 0.01 1 1 10 10]',1,N);
+% WN=[10 10 0.01 100 100]';
+W=repmat([1 1 0.001 1 1 5 5]',1,N);
+WN=[100 100 0.001 10 10]';
 
 % upper and lower bounds for states (=nbx)
-lb_x = [-0.5; -0.5];
-ub_x = [1; 1];
+lb_x = [-2; -3];
+ub_x = [2; 3];
 
 % upper and lower bounds for controls (=nbu)           
-lb_u = [-1; -1];
-ub_u = [1; 1];
+lb_u = [-6; -6];
+ub_u = [6; 6];
                        
 % upper and lower bounds for general constraints (=nc)
+%v,w,v_dot,w_dot
 lb_g = [];
 ub_g = [];            
 lb_gN = [];

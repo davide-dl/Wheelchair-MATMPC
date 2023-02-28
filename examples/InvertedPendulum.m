@@ -83,7 +83,7 @@ obji_GGN = 0.5*(aux-refs)'*(aux-refs);
 objN_GGN = 0.5*(auxN-refN)'*(auxN-refN);
 
 % general inequality constraints
-general_con = [];
+general_con = []; %v,w,v_dot,w_dot
 general_con_N = [];
 
 %% NMPC discretizing time length [s]
