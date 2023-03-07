@@ -70,7 +70,7 @@ para0 = zeros(max(1,np),1);
 
 % W=repmat([10 10 0.01 1 1 10 10]',1,N);
 % WN=[10 10 0.01 100 100]';
-W=repmat([1 1 0.001 1 1 5 5]',1,N);
+W=repmat([1 1 0.001 1 1 5 10]',1,N);
 WN=[100 100 0.001 10 10]';
 
 % upper and lower bounds for states (=nbx)
