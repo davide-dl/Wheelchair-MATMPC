@@ -23,7 +23,7 @@ settings.model='wmr'; % see the folder "examples" for details
 run(settings.model);
 
 %%
-addpath('/home/davidedl/MATLAB/casadi-linux-matlabR2014b-v3.5.5')
+% addpath('/home/david edl/Documents/MATLAB/casadi-linux-matlabR2014b-v3.5.5')
 import casadi.*
 
 lambda=SX.sym('lambda',nx,1);            % the i th multiplier for equality constraints
