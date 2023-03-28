@@ -8,6 +8,7 @@ clear mex; close all; clear all; clc;
 addpath([pwd,'/nmpc']);
 addpath([pwd,'/model_src']);
 addpath([pwd,'/mex_core']);
+
 %% Parametri Simulazione
 cd data;
 if exist('settings','file')==2
@@ -17,6 +18,7 @@ else
     cd ..
     error('No setting data is detected!');
 end
+
 
 Ts  = settings.Ts_st;    % Sampling time
 
@@ -51,7 +53,7 @@ opt.condensing='default_full';  %'default_full','no','blasfeo_full(require blasf
 opt.qpsolver='qpoases'; 
 opt.hotstart='no'; %'yes','no' (only for qpoases)
 opt.shifting='no'; % 'yes','no'
-opt.ref_type=0; % 0-time invariant, 1-time varying(no preview), 2-time varying (preview)
+opt.ref_type=2; % 0-time invariant, 1-time varying(no preview), 2-time varying (preview)
 opt.nonuniform_grid=0; % currently not supported
 opt.RTI='yes';
 
@@ -125,6 +127,13 @@ if isempty(z)
     z=0;
 end
 
-zref = 1.5;
-yref = 1;
-STOPTIME = 2;
+%% Reference
+% zref = 4;
+% yref = 2;
+myref.tend = 100;
+myref.dist = 2;
+myref.T = Ts;
+myref.time = 0:myref.T:myref.tend;
+% myref.signal = 90*sin(myref.time*pi/10);
+myref.signal = 0.*myref.time + 50;
+myref.matrix = [myref.time' myref.signal'];
