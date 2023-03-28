@@ -74,12 +74,12 @@ W=repmat([1 1 0.001 1 1 5 10]',1,N);
 WN=[100 100 0.001 10 10]';
 
 % upper and lower bounds for states (=nbx)
-lb_x = [-2; -3];
-ub_x = [2; 3];
+lb_x = [-0.02; -0.6];
+ub_x = [0.2; 0.6];
 
 % upper and lower bounds for controls (=nbu)           
-lb_u = [-6; -6];
-ub_u = [6; 6];
+lb_u = [-2; -2];
+ub_u = [2; 2];
                        
 % upper and lower bounds for general constraints (=nc)
 %v,w,v_dot,w_dot
@@ -124,3 +124,7 @@ if isempty(z)
     z0=0;
     z=0;
 end
+
+zref = 1.5;
+yref = 1;
+STOPTIME = 2;

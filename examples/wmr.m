@@ -1,6 +1,6 @@
 %------------------------------------------%
 
-% Wheeled Mobile Robot (WRM) - Davide De Lazzari
+% Wheeled Mobile Robot (WMR) - Davide De Lazzari
 
 %------------------------------------------%
 
