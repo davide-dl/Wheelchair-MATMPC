@@ -49,8 +49,8 @@ settings.r = r;
 %% options
 opt.hessian='Gauss_Newton';  % 'Gauss_Newton', 'Generalized_Gauss_Newton'
 opt.integrator='ERK4'; % 'ERK4','IRK3, 'IRK3-DAE'
-opt.condensing='no';  %'default_full','no','blasfeo_full(require blasfeo installed)','partial_condensing'
-opt.qpsolver='hpipm_sparse'; 
+opt.condensing='yes';  %'default_full','no','blasfeo_full(require blasfeo installed)','partial_condensing'
+opt.qpsolver='qpoases'; 
 opt.hotstart='no'; %'yes','no' (only for qpoases)
 opt.shifting='yes'; % 'yes','no'
 opt.ref_type=2; % 0-time invariant, 1-time varying(no preview), 2-time varying (preview)
