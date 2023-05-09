@@ -23,7 +23,7 @@ settings.model='wmr'; % see the folder "examples" for details
 run(settings.model);
 
 %%
-% addpath('/home/david edl/Documents/MATLAB/casadi-linux-matlabR2014b-v3.5.5')
+% addpath('/home/davidedl/Documents/MATLAB/casadi-linux-matlabR2014b-v3.5.5')
 import casadi.*
 
 lambda=SX.sym('lambda',nx,1);            % the i th multiplier for equality constraints
@@ -158,7 +158,9 @@ adjN_fun = Function('adjN_fun',{states,params,refN, QN, mu_x,muN_g},{dobjN, adj_
 
 %% Code generation and Compile
 
-generate=input('Would you like to generate the source code?(y/n)','s');
+% generate=input('Would you like to generate the source code?(y/n)','s');
+
+generate='y';
 
 if strcmp(generate,'y')
 
@@ -213,7 +215,9 @@ disp('    Code generation completed!');
 end
 
 disp('                           ');
-compile=input('Would you like to compile the source code?(y/n)','s');
+% compile=input('Would you like to compile the source code?(y/n)','s');
+compile='y';
+
 if strcmp(compile,'y')
     
     disp('    Compiling...');

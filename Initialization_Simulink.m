@@ -38,7 +38,7 @@ nbx_idx = settings.nbx_idx; % Index of state bounds
 
 %% add more to Settings
 
-N  = 2*80;
+N  = 80;
 N2 = 5;
 r  = 10;
 
@@ -49,13 +49,13 @@ settings.r = r;
 %% options
 opt.hessian='Gauss_Newton';  % 'Gauss_Newton', 'Generalized_Gauss_Newton'
 opt.integrator='ERK4'; % 'ERK4','IRK3, 'IRK3-DAE'
-opt.condensing='default_full';  %'default_full','no','blasfeo_full(require blasfeo installed)','partial_condensing'
-opt.qpsolver='qpoases'; 
+opt.condensing='no';  %'default_full','no','blasfeo_full(require blasfeo installed)','partial_condensing'
+opt.qpsolver='hpipm_sparse'; 
 opt.hotstart='no'; %'yes','no' (only for qpoases)
-opt.shifting='no'; % 'yes','no'
+opt.shifting='yes'; % 'yes','no'
 opt.ref_type=2; % 0-time invariant, 1-time varying(no preview), 2-time varying (preview)
 opt.nonuniform_grid=0; % currently not supported
-opt.RTI='yes';
+opt.RTI='no'; % real-time
 
 %% available qpsolver
 %'qpoases' (for full condensing)
@@ -72,12 +72,17 @@ para0 = zeros(max(1,np),1);
 
 % W=repmat([10 10 0.01 1 1 10 10]',1,N);
 % WN=[10 10 0.01 100 100]';
-W=repmat([1 1 0.001 1 1 5 10]',1,N);
+
+% PIERO:
+% Qx     = np.array([5,5,0,80])
+% QxN    = np.array([45,45,3,0])
+
+W=repmat([1 1 0.001 10 1 10 10]',1,N);
 WN=[100 100 0.001 10 10]';
 
 % upper and lower bounds for states (=nbx)
-lb_x = [-0.02; -0.6];
-ub_x = [0.2; 0.6];
+lb_x = [-0.02; -0.8];
+ub_x = [0.8; 0.8]; 
 
 % upper and lower bounds for controls (=nbu)           
 lb_u = [-2; -2];
@@ -128,12 +133,17 @@ if isempty(z)
 end
 
 %% Reference
-% zref = 4;
-% yref = 2;
-myref.tend = 100;
-myref.dist = 2;
-myref.T = Ts;
-myref.time = 0:myref.T:myref.tend;
-% myref.signal = 90*sin(myref.time*pi/10);
-myref.signal = 0.*myref.time + 50;
-myref.matrix = [myref.time' myref.signal'];
+zref = 5;
+yref = -0.5;
+
+% laser_samples = 50; % must be changed also in the model
+costmap_resolution = 0.1; % must be changed also in the model
+costmap_width = 100;
+
+% myref.tend = 100; 
+% myref.dist = 2;
+% myref.T = Ts;
+% myref.time = 0:myref.T:myref.tend;
+% % myref.signal = 90*sin(myref.time*pi/10);
+% myref.signal = 0.*myref.time + 50;
+% myref.matrix = [myref.time' myref.signal'];
