@@ -400,9 +400,9 @@ function [mem] = InitMemory(settings, opt, input)
     if strcmp(opt.RTI,'yes')
         mem.sqp_maxit=1;         % use RTI
     else       
-        mem.sqp_maxit = 10;      % maximum number of iterations for each sampling instant
+        mem.sqp_maxit = 6;      % maximum number of iterations for each sampling instant
     end
-    mem.kkt_lim = 1e-2;          % tolerance on optimality
+    mem.kkt_lim = 1e-1;          % tolerance on optimality
     mem.mu_merit=0;              % initialize the parameter
     mem.eta=1e-4;                % merit function parameter
     mem.tau=0.8;                 % step length damping factor

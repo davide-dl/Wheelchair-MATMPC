@@ -17,7 +17,7 @@ disp('--------------------------------------------------------------------------
 addpath([pwd,'/examples']);
 
 settings.model='wmr'; % see the folder "examples" for details
-% settings.model='InvertedPendulum'; % see the folder "examples" for details
+%settings.model='InvertedPendulum'; % see the folder "examples" for details
 
 
 run(settings.model);

@@ -37,7 +37,7 @@ switch settings.model
     
     case 'InvertedPendulum'
         
-        figure(1);
+        figure;
         subplot(321)
         plot(time,state_sim(:,1));
         title('p');

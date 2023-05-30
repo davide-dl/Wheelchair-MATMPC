@@ -16,7 +16,8 @@ nyN=5; % No. of outputs at the terminal point
 % laser_samples = 360; % must be changed also in initialization_Simulink
 
 % np=laser_samples*4; % No. of model parameters
-np=10;
+np=100;
+%np = 0;
 
 nc=0; % No. of general constraints
 ncN=0; % No. of general constraints at the terminal point
@@ -78,6 +79,9 @@ obstacles = params;
 h = [z;y;th;v;w;vdot;wdot];
 hN = h(1:nyN);
 
+% outer objectives
+%obji = 0.5*(h-refs)'*diag(Q)*(h-refs);
+%objN = 0.5*(hN-refN)'*diag(QN)*(hN-refN);
 % outer objectives
 obji = 0.5*(h-refs)'*diag(Q)*(h-refs) + obstacles_pen(h(1:2),obstacles,np);
 objN = 0.5*(hN-refN)'*diag(QN)*(hN-refN) + obstacles_pen(h(1:2),obstacles,np);
