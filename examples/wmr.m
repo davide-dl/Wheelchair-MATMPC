@@ -16,7 +16,7 @@ nyN=5; % No. of outputs at the terminal point
 % laser_samples = 360; % must be changed also in initialization_Simulink
 
 % np=laser_samples*4; % No. of model parameters
-np=100;
+np=200;
 %np = 0;
 
 nc=0; % No. of general constraints
@@ -75,6 +75,10 @@ obstacles = params;
      
 %% Objectives and constraints
 
+
+c = 50; % steepness
+k = 100; % max penalty
+
 % inner objectives
 h = [z;y;th;v;w;vdot;wdot];
 hN = h(1:nyN);
@@ -83,8 +87,8 @@ hN = h(1:nyN);
 %obji = 0.5*(h-refs)'*diag(Q)*(h-refs);
 %objN = 0.5*(hN-refN)'*diag(QN)*(hN-refN);
 % outer objectives
-obji = 0.5*(h-refs)'*diag(Q)*(h-refs) + obstacles_pen(h(1:2),obstacles,np);
-objN = 0.5*(hN-refN)'*diag(QN)*(hN-refN) + obstacles_pen(h(1:2),obstacles,np);
+obji = 0.5*(h-refs)'*diag(Q)*(h-refs) + obstacles_pen(h(1:2),obstacles,np,c,k);
+objN = 0.5*(hN-refN)'*diag(QN)*(hN-refN) + obstacles_pen(h(1:2),obstacles,np,c,k);
 
 obji_GGN = 0.5*(aux-refs)'*(aux-refs);
 objN_GGN = 0.5*(auxN-refN)'*(auxN-refN);
@@ -95,24 +99,11 @@ general_con_N = [];
 
 %% NMPC discretizing time length [s]
 
-Ts_st = 0.07 ;%1/15; % shooting interval time
+Ts_st = 0.08 ; % shooting interval time
 
-%%
+%% Obstacles
 
-% PIERO:
-% 1/28 * gaussian(model._x['v'],0.0002, 0.05)
-
-% out_test = obstacles_pen([2.15,0],[3,0,1,0])
-
-% function y = cost_test(pos2d,obstacles)
-%     x_wc = pos2d(1); 
-%     y_wc = pos2d(2);
-%     xo = obstacles(1);
-%     yo = 2;
-%     y = -((x_wc - xo)^2 + (y_wc - yo)^2);
-% end
-
-function y = obstacles_pen(pos2d,obstacles,np)
+function y = obstacles_pen(pos2d,obstacles,np,c,k)
     x_wc = pos2d(1);
     y_wc = pos2d(2);
     y = 0;
@@ -121,22 +112,20 @@ function y = obstacles_pen(pos2d,obstacles,np)
 %         xo = 3;
         yo = obstacles(i+1);
 %         yo = 0;
-        y = max(y,obst_pen(x_wc,y_wc,xo,yo));
-%         y = y + obst_pen(x_wc,y_wc,xo,yo);
+        y = max(y,obst_pen(x_wc,y_wc,xo,yo,c,k));
+%         y = y + obst_pen(x_wc,y_wc,xo,yo,c,k);
     end
 end
 
-function y = obst_pen(x_wc,y_wc,x_obst,y_obst)
+function y = obst_pen(x_wc,y_wc,x_obst,y_obst,c,k)
     d = sqrt((x_wc - x_obst)^2 + (y_wc - y_obst)^2);
-    y = pen(d);
+    y = pen(d,c,k);
 end
 
-function y = pen(d)
+function y = pen(d,c,k)
     costmap_resolution = 0.1;
-    wc_radius = 0.8;
+    wc_radius = 0.9; %changed, it was 0.8
     d = d - wc_radius - costmap_resolution/2;
-    c = 100; % steepness
-    k = 100; % max penalty
     y = k*sigmoid(-d,c);
 end
 

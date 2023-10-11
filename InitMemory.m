@@ -74,8 +74,8 @@ function [mem] = InitMemory(settings, opt, input)
             mem.quadprog_opt.ConstraintTolerance = 1e-6;
             mem.quadprog_opt.StepTolerance = 1e-6;
         case 'hpipm_sparse'
-            mem.mu0=1e4;
-            mem.max_qp_it = 30;
+            mem.mu0=1e2;    
+            mem.max_qp_it = 100;
             mem.pred_corr = 1;
             mem.cond_pred_corr = 1;
             mem.solver_mode = 1;
@@ -402,7 +402,7 @@ function [mem] = InitMemory(settings, opt, input)
     else       
         mem.sqp_maxit = 6;      % maximum number of iterations for each sampling instant
     end
-    mem.kkt_lim = 1e-1;          % tolerance on optimality
+    mem.kkt_lim = 1e-2;          % tolerance on optimality
     mem.mu_merit=0;              % initialize the parameter
     mem.eta=1e-4;                % merit function parameter
     mem.tau=0.8;                 % step length damping factor
