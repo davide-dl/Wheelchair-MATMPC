@@ -36,10 +36,10 @@ nbx = settings.nbx;      % No. of state bounds
 nbu_idx = settings.nbu_idx; % Index of control bounds
 nbx_idx = settings.nbx_idx; % Index of state bounds
 
-%% add more to Settings
+%% add more to Settings20
 
-N  = 80;
-N2 = 5;
+N  = 100;  % horizon steps
+N2 = 5;  
 r  = 10;
 
 settings.N = N;
@@ -77,16 +77,21 @@ para0 = zeros(max(1,np),1);
 % Qx     = np.array([5,5,0,80])
 % QxN    = np.array([45,45,3,0])
 
-W=repmat([1 1 0.001 10 1 10 10]',1,N);
-WN=[100 100 0.001 10 10]';
+w = [10 10 0 1 1 10 10]';
+W=repmat(w,1,N);
+WN=[50 50 0 50 50]';
 
 % upper and lower bounds for states (=nbx)
-lb_x = [-0.02; -0.8];
-ub_x = [0.8; 0.8]; 
+lb_x = [0; -0.8];
+ub_x = [0.3; 0.8]; 
 
 % upper and lower bounds for controls (=nbu)           
-lb_u = [-2; -2];
-ub_u = [2; 2];
+%lb_u = [-0.2; -0.2];
+%ub_u = [0.2; 0.2];
+
+lb_u = [-0.2; -0.1];
+ub_u = [0.2; 0.1];
+
                        
 % upper and lower bounds for general constraints (=nc)
 %v,w,v_dot,w_dot
@@ -137,7 +142,9 @@ zref = 1;
 yref = 0;
 
 % laser_samples = 50; % must be changed also in the model
-costmap_resolution = 0.1; % must be changed also in the model
+% costmap_resolution = 0.05; % must be changed also in the model
+costmap_resolution = 0.1;
+%costmap_width = 200;
 costmap_width = 100;
 
 % myref.tend = 100; 
@@ -147,3 +154,13 @@ costmap_width = 100;
 % % myref.signal = 90*sin(myref.time*pi/10);
 % myref.signal = 0.*myref.time + 50;
 % myref.matrix = [myref.time' myref.signal'];
+
+%% Logging
+
+params.settings = settings;
+params.weights.W = w;
+params.weights.WN = WN;
+params.bounds.lb_x = lb_x;
+params.bounds.ub_x = ub_x;
+params.bounds.lb_u = lb_u;
+params.bounds.ub_u = ub_u;

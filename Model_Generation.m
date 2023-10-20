@@ -1,6 +1,6 @@
 clear all;clc;
 disp( ' ' );
-disp( 'MATMPC -- A (MAT)LAB based Model(M) Predictive(P) Control(C) Package.' );
+disp(   'MATMPC -- A (MAT)LAB based Model(M) Predictive(P) Control(C) Package.' );
 disp( 'Copyright (C) 2016-2019 by Yutao Chen, University of Padova' );
 disp( 'All rights reserved.' );
 disp( ' ' );
@@ -284,6 +284,8 @@ settings.nbx = nbx;
 settings.nbu = nbu;
 settings.nbx_idx = nbx_idx;
 settings.nbu_idx = nbu_idx;
+settings.c = c;
+settings.k = k;
 
 cd data
 save('settings','settings');
